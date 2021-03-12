@@ -3,6 +3,7 @@ import 'package:movie_api/controllers/ClasificacionController.dart';
 import 'package:movie_api/controllers/DirectorController.dart';
 import 'package:movie_api/controllers/GeneroController.dart';
 import 'package:movie_api/controllers/PeliculasController.dart';
+import 'package:movie_api/controllers/RepartoController.dart';
 
 import 'movie_api.dart';
 
@@ -52,7 +53,7 @@ class MovieApiChannel extends ApplicationChannel {
     router.route("/director[/:id]").link( () => DirectorController(context));
     router.route("/genero[/:id]").link( () => GeneroController(context));
     router.route("/peliculas[/:id]").link( () => PeliculasController(context));
-    // router.route("/reparto[/:id_reparto]").link( () => RepartoController(context));
+    router.route("/reparto[/:id_reparto]").link( () => RepartoController(context));
 
     return router;
   }
