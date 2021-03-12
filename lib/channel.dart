@@ -1,3 +1,5 @@
+import 'package:movie_api/controllers/ActorController.dart';
+
 import 'movie_api.dart';
 
 /// This type initializes an application.
@@ -11,9 +13,16 @@ class MovieApiChannel extends ApplicationChannel {
   /// and any other initialization required before constructing [entryPoint].
   ///
   /// This method is invoked prior to [entryPoint] being accessed.
+  
+  ManagedContext context;
+  
   @override
   Future prepare() async {
     logger.onRecord.listen((rec) => print("$rec ${rec.error ?? ""} ${rec.stackTrace ?? ""}"));
+
+    final dataModel = ManagedDataModel.fromCurrentMirrorSystem();
+    final persistenceStore = PostgreSQLPersistentStore('postgres', '1234', 'localhost', 5432, 'movies_db');
+
   }
 
   /// Construct the request channel.
@@ -28,11 +37,18 @@ class MovieApiChannel extends ApplicationChannel {
 
     // Prefer to use `link` instead of `linkFunction`.
     // See: https://aqueduct.io/docs/http/request_controller/
-    router
-      .route("/example")
-      .linkFunction((request) async {
-        return Response.ok({"key": "value"});
-      });
+    // router
+    //   .route("/example")
+    //   .linkFunction((request) async {
+    //     return Response.ok({"key": "value"});
+    //   });
+
+    router.route("/actor[/:id_actor]").link( () => ActorController(context));
+    // router.route("/clasificacion[/:clave]").link( () => ClasificacionController(context));
+    // router.route("/director[/:id]").link( () => DirectorController(context));
+    // router.route("/genero[/:id]").link( () => GeneroController(context));
+    // router.route("/peliculas[/:id]").link( () => PeliculasController(context));
+    // router.route("/reparto[/:id_reparto]").link( () => RepartoController(context));
 
     return router;
   }

@@ -5,7 +5,7 @@ class ActorDAO extends ManagedObject<actor> implements actor{}
 class actor{
     
     @primaryKey
-    int id;
+    int id_actor;
 
     @Column(indexed: true)
     String nombre;
