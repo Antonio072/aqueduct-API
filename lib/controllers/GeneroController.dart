@@ -1,13 +1,17 @@
 import 'package:movie_api/models/GeneroDAO.dart';
 import 'package:movie_api/movie_api.dart';
-
+import 'package:movie_api/helpers/properties.dart';
 class GeneroController extends ResourceController{
 
   final ManagedContext context;
   GeneroController(this.context);
 
   @Operation.get()
-  Future<Response> getAllGenero() async{
+  Future<Response> getAllGenero(@Bind.header("Authorization") String authHeader) async{
+
+    if( !Properties.isAuthorized(authHeader)){
+      return Response.forbidden();
+    }
 
     final generosQuery =Query<GeneroDAO>(context);
     final generos = await generosQuery.fetch();

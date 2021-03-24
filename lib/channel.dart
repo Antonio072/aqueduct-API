@@ -4,6 +4,7 @@ import 'package:movie_api/controllers/DirectorController.dart';
 import 'package:movie_api/controllers/GeneroController.dart';
 import 'package:movie_api/controllers/PeliculasController.dart';
 import 'package:movie_api/controllers/RepartoController.dart';
+import 'package:movie_api/controllers/SigninController.dart';
 
 import 'movie_api.dart';
 
@@ -26,7 +27,7 @@ class MovieApiChannel extends ApplicationChannel {
     logger.onRecord.listen((rec) => print("$rec ${rec.error ?? ""} ${rec.stackTrace ?? ""}"));
 
     final dataModel = ManagedDataModel.fromCurrentMirrorSystem();
-    final persistenceStore = PostgreSQLPersistentStore('postgres', '1234', 'localhost', 5432, 'movies_db');
+    final persistenceStore = PostgreSQLPersistentStore('root', 'root', 'localhost', 5432, 'movies_api');
 
   }
 
@@ -54,6 +55,7 @@ class MovieApiChannel extends ApplicationChannel {
     router.route("/genero[/:id]").link( () => GeneroController(context));
     router.route("/peliculas[/:id]").link( () => PeliculasController(context));
     router.route("/reparto[/:id_reparto]").link( () => RepartoController(context));
+    router.route("/signin").link(()=> SigninController());
 
     return router;
   }
